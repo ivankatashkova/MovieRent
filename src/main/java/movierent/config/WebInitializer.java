@@ -1,4 +1,4 @@
-package config;
+package movierent.config;
 
 import org.springframework.web.servlet.support.
 AbstractAnnotationConfigDispatcherServletInitializer;
