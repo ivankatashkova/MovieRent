@@ -89,8 +89,11 @@ public class UserController {
 	public String getProfile(Model model,HttpSession session) throws SQLException {
 		User user = (User) session.getAttribute("user");
 		ArrayList<Movie> rented = movieDao.rentedMovies(user);
-		System.out.println(rented.toString());
 		model.addAttribute("rented", rented);
+		ArrayList<Movie>bought =  movieDao.boughtMovies(user);
+		model.addAttribute("bought",bought);
+		ArrayList<Movie> favorites =  movieDao.favorites(user);
+		model.addAttribute("favorites", favorites);
 		return "profile";
 	}
 	

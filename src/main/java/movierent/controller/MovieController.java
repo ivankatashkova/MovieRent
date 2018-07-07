@@ -43,4 +43,35 @@ public class MovieController {
 		return "profile";
 	}
 	
+	@RequestMapping(value="/buy/{movieId}",method = RequestMethod.GET)
+	public String buyMovie(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+		Movie movie = null;
+		movie = movieDao.getMovieById(Long.parseLong(movieId));
+		User user = (User) session.getAttribute("user");
+		if(movieDao.chechIfBougth(user, movie)) {
+			model.addAttribute("msg", "You already have that movie!");
+			return "movie";
+		}
+		//user.addToBougth(movie);
+		movieDao.buy(user, movie);
+		ArrayList<Movie> bought = movieDao.rentedMovies(user);
+		model.addAttribute("bougth", bought);
+		return "profile";
+	}
+	
+	@RequestMapping(value="/favorite/{movieId}",method = RequestMethod.GET)
+	public String addToFavorite(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+		Movie movie = null;
+		movie = movieDao.getMovieById(Long.parseLong(movieId));
+		User user = (User) session.getAttribute("user");
+		ArrayList<Movie> favorites = movieDao.favorites(user);
+		if(favorites.contains(movie)) {
+			model.addAttribute("msg", "Movie is already in favorites!");
+			return "movie";
+		}
+		movieDao.addToFavorite(user, movie);
+		model.addAttribute("favorites", favorites);
+		return "profile";
+	}
+	
 }

@@ -49,8 +49,8 @@ body {
 </ul> 
 	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:80%; margin-top:100px;background-color:white;">
 		<img src="/MovieRent/img/user-icon.png" style="width:80px; height:80px;">
-		<h4>First name </h4>
-		<h3>Last name</h3>
+		<h4><c:out value="${sessionScope.user.firstName}"></c:out> </h4>
+		<h3><c:out value="${sessionScope.user.lastName}"></c:out></h3>
 		<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:10px;"> 
 			<p>Rented movies</p>
 			<table style="margin:auto;">
@@ -68,9 +68,33 @@ body {
 		</div>
 		<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:10px;"> 
 			<p>Bought movies</p>
+			<table style="margin:auto;">
+				<tr>
+					<th>Name</th>
+					<th>Price</th>
+				</tr>
+				<c:forEach var="movie" items="${bought}">
+				<tr>
+					<td><c:out value="${movie.name}"></c:out> </td>
+					<td><c:out value="${movie.price}"></c:out> </td>
+				</tr>
+				</c:forEach>
+			</table>
 		</div>
 		<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:10px;"> 
 			<p>Favorite movies</p>
+			<table style="margin:auto;">
+				<tr>
+					<th>Name</th>
+					<th></th>
+				</tr>
+				<c:forEach var="movie" items="${favorites}">
+				<tr>
+					<td><c:out value="${movie.name}"></c:out> </td>
+					<td>Remove</td>
+				</tr>
+				</c:forEach>
+			</table>
 		</div>
 	</div>
 </body>

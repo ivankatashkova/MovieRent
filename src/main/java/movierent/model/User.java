@@ -1,7 +1,7 @@
 package movierent.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 
 public class User {
 
@@ -11,9 +11,9 @@ public class User {
 	private String email;
 	private String password;
 	private boolean isAdmin;
-	private HashSet<Movie> favorites;
-	private HashSet<Movie> rented;
-	private HashSet<Movie> bougth;
+	private ArrayList<Movie> favorites = new ArrayList<>();
+	private ArrayList<Movie> rented =  new ArrayList<>();
+	private ArrayList<Movie> bought =  new ArrayList<>();
 	
 	public User(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
@@ -88,8 +88,8 @@ public class User {
 			this.favorites.remove(movie);
 		}
 	}
-	public HashSet<Movie> getFavorites() {
-		return (HashSet<Movie>) Collections.unmodifiableSet(favorites);
+	public ArrayList<Movie> getFavorites() {
+		return (ArrayList<Movie>) Collections.unmodifiableList(favorites);
 	}
 	
 	public void addToRented(Movie movie) {
@@ -101,15 +101,15 @@ public class User {
 			this.rented.remove(movie);
 		}
 	}
-	public HashSet<Movie> getRented(){
-		return (HashSet<Movie>) Collections.unmodifiableSet(rented);
+	public ArrayList<Movie> getRented(){
+		return (ArrayList<Movie>) Collections.unmodifiableList(rented);
 	}
 	
-	public void addToBougth(Movie movie) {
-		this.bougth.add(movie);
+	public void addToBought(Movie movie) {
+		this.bought.add(movie);
 	}
 	
-	public HashSet<Movie> getBougth(){
-		return (HashSet<Movie>) Collections.unmodifiableSet(bougth);
+	public ArrayList<Movie> getBought(){
+		return (ArrayList<Movie>) Collections.unmodifiableList(bought);
 	}
 }

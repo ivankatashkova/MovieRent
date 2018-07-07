@@ -103,5 +103,84 @@ public class MovieDao {
 			return false;
 		}
 	}
+	
+	public boolean chechIfBougth(User user, Movie movie) throws SQLException {
+		String sqlCheckIfBougth = "SELECT users_id,movies_id FROM users_has_bought_movies WHERE users_id = ? AND movies_id = ?";
+		try(PreparedStatement ps = connection.prepareStatement(sqlCheckIfBougth)){
+			ps.setLong(1, user.getId());
+			ps.setLong(2, movie.getId());
+			ResultSet rs = ps.executeQuery();
+			int counter = 0;
+			while(rs.next()) {
+				counter++;
+			}
+			if(counter != 0) {
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public void buy(User user, Movie movie) throws SQLException {
+		String sqlInsertBought = "INSERT INTO users_has_bought_movies (users_id,movies_id) VALUES (?,?)";
+		try(PreparedStatement ps =  connection.prepareStatement(sqlInsertBought)){
+			ps.setLong(1, user.getId());
+			ps.setLong(2,movie.getId());
+			ps.executeUpdate();
+		}
+		
+	}
+	
+	public ArrayList<Movie> boughtMovies (User user) throws SQLException{
+		ArrayList<Movie> bought = new ArrayList<>();
+		ArrayList<Long> moviesIds =  new ArrayList<>();
+		String sqlSelectAllBoughtByUser = "SELECT movies_id FROM users_has_bought_movies WHERE users_id = ?";
+		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllBoughtByUser)){
+			ps.setLong(1, user.getId());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				long movieId =  rs.getLong("movies_id");
+				moviesIds.add(movieId);
+			}
+			
+			for(int i = 0; i < moviesIds.size();i++) {
+				Movie movie = getMovieById(moviesIds.get(i));
+				bought.add(movie);
+			}
+			return bought;
+		}
+		
+	}
+	
+	public ArrayList<Movie> favorites (User user) throws SQLException{
+		ArrayList<Movie> favorites = new ArrayList<>();
+		ArrayList<Long> moviesIds =  new ArrayList<>();
+		String sqlSelectFavorites = "SELECT movies_id FROM users_has_favorite_movies WHERE users_id = ?";
+		try(PreparedStatement ps = connection.prepareStatement(sqlSelectFavorites)){
+			ps.setLong(1, user.getId());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				long movieId =  rs.getLong("movies_id");
+				moviesIds.add(movieId);
+			}
+			
+			for(int i = 0; i < moviesIds.size();i++) {
+				Movie movie = getMovieById(moviesIds.get(i));
+				favorites.add(movie);
+			}
+			return favorites;
+		}
+		
+	}
+	
+	public void addToFavorite(User user, Movie movie) throws SQLException {
+		String sqlInsertBought = "INSERT INTO users_has_favorite_movies (users_id,movies_id) VALUES (?,?)";
+		try(PreparedStatement ps =  connection.prepareStatement(sqlInsertBought)){
+			ps.setLong(1, user.getId());
+			ps.setLong(2,movie.getId());
+			ps.executeUpdate();
+		}
+		
+	}
 }
 	
