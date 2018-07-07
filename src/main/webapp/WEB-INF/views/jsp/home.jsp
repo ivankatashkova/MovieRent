@@ -33,7 +33,7 @@ li a:hover {
 }
 
 body {
-   background-image: url("img/bg.jpg");
+   background-image: url("/MovieRent/img/bg.jpg");
    background-color: #cccccc;
      background-position: center;
     background-repeat: no-repeat;
@@ -43,9 +43,9 @@ body {
 </style>
 <body style="background-color:#ffffcc">
  <ul>
-  <li><a href="" style="float:left;">Home</a></li>
-  <li><a href="" style="float:right;">Log out</a></li>
-  <li><a href="" style="float:right;">Profile</a></li>
+  <li><a href="/MovieRent/home" style="float:left;">Home</a></li>
+  <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit" class="w3-bar-item w3-button" value = "Logout" style="float:right;"></form></li>
+  <li><a href="/MovieRent/profile" style="float:right;">Profile</a></li>
 </ul> 
 	<div>
 		<table style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:60%; margin-top:100px;background-color:white;">
@@ -62,7 +62,7 @@ body {
 					<td><c:out value="${movie.year}"></c:out></td>
 					<td><c:out value="${movie.rentPrice}"></c:out> </td>
 					<td><c:out value="${movie.price}"></c:out> </td>
-					<td><a href="/MovieRent/movie/${movie.id}">View</a></td>
+					<td><a href="/MovieRent/movie/${movie.id}" style = "border: none; text-decoration: none;">View</a></td>
 				</tr>
 			</c:forEach>
 		</table>

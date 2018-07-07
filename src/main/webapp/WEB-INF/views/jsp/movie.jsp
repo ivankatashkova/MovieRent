@@ -42,20 +42,19 @@ body {
 </style>
 <body style="background-color:#ffffcc">
  <ul>
-  <li><a href="" style="float:left;">Home</a></li>
-  <li><a href="" style="float:right;">Log out</a></li>
-  <li><a href="" style="float:right;">Profile</a></li>
+  <li><a href="/MovieRent/home" style="float:left;">Home</a></li>
+  <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit" class="w3-bar-item w3-button" value = "Logout" style="float:right;"></form></li>
+  <li><a href="/MovieRent/profile" style="float:right;">Profile</a></li>
 </ul> 
 	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:30%; margin-top:100px;background-color:white;">
+			<c:out value="${msg}"></c:out>
 		<h3><c:out value="${movie.name}"></c:out></h3>
 		<h4><c:out value="${movie.year}"></c:out></h4> 
 		<div style = "margin:auto; border: 1px solid silver; width:120px; height:160px;">
 		<p>Movie photo</p>
 		</div>
-		<p><c:out value="${movie.rentPrice}"></c:out>/<c:out value="${movie.price}"></c:out></p>
-		<form>
-			<p><input type = "submit" value = "Rent" style = "background-color: silver; border: none; height: 30px;"> <input type = "submit" value = "Buy" style = "background-color: silver; border: none; height: 30px;"> <input type = "submit" value = "Add to favorite" style = "background-color: silver; border: none; height: 30px;"></p>
-		</form>
+		<h4><i style = "color:green">$<c:out value="${movie.rentPrice}"></c:out></i>/<i style = "color:red;">$<c:out value="${movie.price}"></c:out></i></h4>
+		<p><a href = "/MovieRent/rent/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Rent</a> <a href = "/MovieRent/buy/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Buy</a> <a href = "/MovieRent/favorite/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Add to favorite</a></p>
 	</div>
 </body>
 </html>

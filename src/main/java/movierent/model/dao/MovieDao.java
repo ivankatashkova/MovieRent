@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import movierent.model.Movie;
+import movierent.model.User;
 
 @Component
 public class MovieDao {
@@ -53,6 +54,54 @@ public class MovieDao {
 		
 		return movie;
 		
+	}
+	
+	public void rent(User user, Movie movie) throws SQLException {
+		String sqlInsertRented = "INSERT INTO users_has_rented_movies (users_id,movies_id) VALUES (?,?)";
+		try(PreparedStatement ps =  connection.prepareStatement(sqlInsertRented)){
+			ps.setLong(1, user.getId());
+			ps.setLong(2,movie.getId());
+			ps.executeUpdate();
+		}
+		
+	}
+	
+	public ArrayList<Movie> rentedMovies (User user) throws SQLException{
+		ArrayList<Movie> rented = new ArrayList<>();
+		ArrayList<Long> moviesIds =  new ArrayList<>();
+		String sqlSelectAllRentedByUser = "SELECT movies_id FROM users_has_rented_movies WHERE users_id = ?";
+		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllRentedByUser)){
+			ps.setLong(1, user.getId());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				long movieId =  rs.getLong("movies_id");
+				moviesIds.add(movieId);
+			}
+			
+			for(int i = 0; i < moviesIds.size();i++) {
+				Movie movie = getMovieById(moviesIds.get(i));
+				rented.add(movie);
+			}
+			return rented;
+		}
+		
+	}
+	
+	public boolean chechIfRented(User user, Movie movie) throws SQLException {
+		String sqlCheckIfRented = "SELECT users_id,movies_id FROM users_has_rented_movies WHERE users_id = ? AND movies_id = ?";
+		try(PreparedStatement ps = connection.prepareStatement(sqlCheckIfRented)){
+			ps.setLong(1, user.getId());
+			ps.setLong(2, movie.getId());
+			ResultSet rs = ps.executeQuery();
+			int counter = 0;
+			while(rs.next()) {
+				counter++;
+			}
+			if(counter != 0) {
+				return true;
+			}
+			return false;
+		}
 	}
 }
 	

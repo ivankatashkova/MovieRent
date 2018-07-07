@@ -1,17 +1,17 @@
 package movierent.controller;
 
 import java.sql.SQLException;
-
+import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import movierent.model.Movie;
 import movierent.model.User;
+import movierent.model.dao.MovieDao;
 import movierent.model.dao.UserDao;
 
 @Controller
@@ -19,7 +19,9 @@ public class UserController {
 	
 	@Autowired
 	private UserDao userDao;
-
+	@Autowired
+	MovieDao movieDao;
+	
 	@RequestMapping(value = {"/login"},method = RequestMethod.POST)
 	public String login(Model model,@RequestParam String email,
 			@RequestParam String password,HttpSession session) throws SQLException {
@@ -29,6 +31,8 @@ public class UserController {
 			User user = userDao.getUserByEmail(email);
 			session.setAttribute("user", user);
 			//redirect
+			ArrayList<Movie> movies = movieDao.movies();
+			model.addAttribute("movies", movies);
 			return "home";
 		}
 		//redirect
@@ -38,8 +42,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = {"/logout"},method = RequestMethod.POST)
-	public String logout() {
+	public String logout(HttpSession session) {
 		//clear session
+		session.invalidate();
 		//redirect
 		return "index";
 	}
@@ -78,6 +83,15 @@ public class UserController {
 		//redirect
 		model.addAttribute("msg", "Successful registration! You can now log in!");
 		return "index";
+	}
+	
+	@RequestMapping(value = {"/profile"},method = RequestMethod.GET)
+	public String getProfile(Model model,HttpSession session) throws SQLException {
+		User user = (User) session.getAttribute("user");
+		ArrayList<Movie> rented = movieDao.rentedMovies(user);
+		System.out.println(rented.toString());
+		model.addAttribute("rented", rented);
+		return "profile";
 	}
 	
 }
