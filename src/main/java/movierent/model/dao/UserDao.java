@@ -21,7 +21,7 @@ public class UserDao {
 	
 	public User getUserById(long id) throws SQLException {
 		User user = null;
-		String sqlSelectUserById = "SELECT id,first_name,last_name,email,password FROM users WHERE id = ? ;";
+		String sqlSelectUserById = "SELECT id,first_name,last_name,email,password,isAdmin FROM users WHERE id = ? ;";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectUserById)){
 			ps.setLong(1, id);
 			ResultSet result = ps.executeQuery();
@@ -30,8 +30,9 @@ public class UserDao {
 				String lastName = result.getString("last_name");
 				String email = result.getString("email");
 				String password = result.getString("password");
+				boolean isAdmin = result.getBoolean("isAdmin");
 				
-				user = new User(firstName, lastName,email, password);
+				user = new User(firstName, lastName,email, password,isAdmin);
 				user.setId(id);
 			}
 		}
@@ -86,7 +87,7 @@ public class UserDao {
 	
 	public User getUserByEmail(String email) throws SQLException {
 		User user = null;
-		String sqlSelectUserById = "SELECT id,first_name,last_name,email,password FROM users WHERE email = ? ;";
+		String sqlSelectUserById = "SELECT id,first_name,last_name,email,password,isAdmin FROM users WHERE email = ? ;";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectUserById)){
 			ps.setString(1, email);
 			ResultSet result = ps.executeQuery();
@@ -96,7 +97,8 @@ public class UserDao {
 				String lastName = result.getString("last_name");
 				String mail = result.getString("email");
 				String password = result.getString("password");
-				user = new User(id,firstName, lastName,mail, password);
+				boolean isAdmin = result.getBoolean("isAdmin");
+				user = new User(id,firstName, lastName,mail, password,isAdmin);
 			}
 		}
 		

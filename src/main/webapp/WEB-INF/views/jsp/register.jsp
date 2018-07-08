@@ -22,11 +22,11 @@ body {
 	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:30%; margin-top:100px;background-color:white;">
 		<form action="register" method="post">
 			<p><c:out value="${msg}"></c:out></p>
-			<p><input type = "text" placeholder = "first name" name = "firstname"></p>
-			<p><input type = "text" placeholder = "last name" name = "lastname"></p>
-			<p><input type = "text" placeholder = "email" name = "email"></p>
-			<p><input type = "password" placeholder = "password" name = "password"></p>
-			<p><input type = "password" placeholder = "confirm password" name = "confirmpassword"></p>
+			<p><input type = "text" placeholder = "first name" name = "firstname" required></p>
+			<p><input type = "text" placeholder = "last name" name = "lastname" required></p>
+			<p><input type = "text" placeholder = "email" name = "email" required></p>
+			<p><input type = "password" placeholder = "password" name = "password" required></p>
+			<p><input type = "password" placeholder = "confirm password" name = "confirmpassword" required></p>
 			<p><input type = "submit" value = "Make registration" style = "background-color: silver; border: none; height: 30px;"></p>
 		</form>
 		 <p style="font-size:14;"><a href = "/MovieRent/" style = "color:black;">I already have registration!</a></p>

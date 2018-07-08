@@ -41,13 +41,13 @@ body {
 	}
 
 </style>
-<body style="background-color:#ffffcc">
+<body>
  <ul>
   <li><a href="/MovieRent/home" style="float:left;">Home</a></li>
-  <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit" class="w3-bar-item w3-button" value = "Logout" style="float:right;"></form></li>
+  <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit"  value = "Logout" style="background-color:black; border:none; float:right;  display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></form></li>
   <li><a href="/MovieRent/profile" style="float:right;">Profile</a></li>
 </ul> 
-	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:80%; margin-top:100px;background-color:white;">
+	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:100px;background-color:white;">
 		<img src="/MovieRent/img/user-icon.png" style="width:80px; height:80px;">
 		<h4><c:out value="${sessionScope.user.firstName}"></c:out> </h4>
 		<h3><c:out value="${sessionScope.user.lastName}"></c:out></h3>
@@ -91,7 +91,7 @@ body {
 				<c:forEach var="movie" items="${favorites}">
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
-					<td>Remove</td>
+					<td><a href="/MovieRent/remove/${movie.id}" style = "border: none; text-decoration: none;">Remove</a></td>
 				</tr>
 				</c:forEach>
 			</table>

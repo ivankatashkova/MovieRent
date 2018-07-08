@@ -182,5 +182,36 @@ public class MovieDao {
 		}
 		
 	}
+	
+	public void removeFromFavorite(User user, Movie movie) throws SQLException {
+		String sqlInsertBought = "DELETE FROM users_has_favorite_movies WHERE users_id = ? AND movies_id = ?";
+		try(PreparedStatement ps =  connection.prepareStatement(sqlInsertBought)){
+			ps.setLong(1, user.getId());
+			ps.setLong(2,movie.getId());
+			ps.executeUpdate();
+		}
+		
+	}
+	
+	public void delete(long id) throws SQLException {
+		String sqlDeleteMovie = "DELETE FROM movies WHERE id = ?";
+		try(PreparedStatement ps =  connection.prepareStatement(sqlDeleteMovie)){
+			ps.setLong(1, id);
+			ps.executeUpdate();
+		}
+		
+	}
+	
+	public void addMovie(Movie movie) throws SQLException {
+		String sqlAddMovie = "INSERT INTO movies (name,year,rent_price,price) VALUES (?,?,?,?)";
+		try(PreparedStatement ps =  connection.prepareStatement(sqlAddMovie)){
+			ps.setString(1, movie.getName());
+			ps.setInt(2, movie.getYear());
+			ps.setDouble(3, movie.getRentPrice());
+			ps.setDouble(4, movie.getPrice());
+			ps.executeUpdate();
+		}
+		
+	}
 }
 	

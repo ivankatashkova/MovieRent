@@ -33,6 +33,9 @@ public class UserController {
 			//redirect
 			ArrayList<Movie> movies = movieDao.movies();
 			model.addAttribute("movies", movies);
+			if(user.isAdmin()) {
+				return "admin";
+			}
 			return "home";
 		}
 		//redirect
@@ -75,7 +78,7 @@ public class UserController {
 				return "register";
 			}
 			//create user
-			User user =  new User(firstname, lastname, email, password);
+			User user =  new User(firstname, lastname, email, password,false);
 			//insert in db
 			userDao.register(user);
 			System.out.println("inserted in db");
@@ -96,5 +99,6 @@ public class UserController {
 		model.addAttribute("favorites", favorites);
 		return "profile";
 	}
+	
 	
 }

@@ -70,8 +70,52 @@ public class MovieController {
 			return "movie";
 		}
 		movieDao.addToFavorite(user, movie);
+		favorites.add(movie);
 		model.addAttribute("favorites", favorites);
+		ArrayList<Movie> rented = movieDao.rentedMovies(user);
+		model.addAttribute("rented", rented);
+		ArrayList<Movie> bought = movieDao.boughtMovies(user);
+		model.addAttribute("bought", bought);
 		return "profile";
 	}
 	
+	@RequestMapping(value = {"/delete/{movieId}"},method = RequestMethod.GET)
+	public String deleteMovie(Model model,HttpSession session,@PathVariable (value = "movieId") String movieId) throws SQLException {
+		long id = Long.parseLong(movieId);
+		movieDao.delete(id);
+		return "admin";
+	}
+	
+	@RequestMapping(value="/remove/{movieId}",method = RequestMethod.GET)
+	public String removeFromFavorite(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+		User user = (User) session.getAttribute("user");
+		Movie movie = movieDao.getMovieById(Long.parseLong(movieId));
+		movieDao.removeFromFavorite(user, movie);
+		ArrayList<Movie> favorites =  movieDao.favorites(user);
+		model.addAttribute("favorites", favorites);
+		ArrayList<Movie> rented = movieDao.rentedMovies(user);
+		model.addAttribute("rented", rented);
+		ArrayList<Movie> bought = movieDao.boughtMovies(user);
+		model.addAttribute("bought", bought);
+		return "profile";
+	}
+	
+	@RequestMapping(value = {"/addMovie"},method = RequestMethod.POST)
+	public String addMovie(Model model,
+			@PathVariable (value = "name") String name,
+			@PathVariable (value = "year") String year,
+			@PathVariable (value = "rentPrice") String rentPrice,
+			@PathVariable (value = "price") String price) throws SQLException {
+		String movieName =  name;
+		int movieYear = Integer.parseInt(year);
+		double movieRentPrice = Double.parseDouble(rentPrice);
+		double moviePrice = Double.parseDouble(price);
+		Movie movie = new Movie(movieName, movieYear, movieRentPrice, moviePrice);
+		movieDao.addMovie(movie);
+		model.addAttribute("msg", "New movie added!");
+		ArrayList<Movie>movies = movieDao.movies();
+		model.addAttribute("movies", movies);
+		return "admin";
+	}
+
 }

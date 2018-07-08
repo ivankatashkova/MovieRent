@@ -15,20 +15,22 @@ public class User {
 	private ArrayList<Movie> rented =  new ArrayList<>();
 	private ArrayList<Movie> bought =  new ArrayList<>();
 	
-	public User(String firstName, String lastName, String email, String password) {
+	public User(String firstName, String lastName, String email, String password,boolean isAdmin) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.isAdmin = isAdmin;
 	}
 
-	public User(long id, String firstName, String lastName, String email, String password) {
+	public User(long id, String firstName, String lastName, String email, String password,boolean isAdmin) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.isAdmin = isAdmin;
 	}
 
 	public long getId() {
