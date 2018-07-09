@@ -33,7 +33,7 @@ public class MovieController {
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
-		if(movieDao.chechIfRented(user, movie)) {
+		if(movieDao.checkIfRented(user, movie)) {
 			model.addAttribute("msg", "Movie is already rented!");
 			return "movie";
 		}
@@ -49,7 +49,7 @@ public class MovieController {
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
-		if(movieDao.chechIfBougth(user, movie)) {
+		if(movieDao.checkIfBougth(user, movie)) {
 			model.addAttribute("msg", "You already have that movie!");
 			return "movie";
 		}
@@ -80,13 +80,6 @@ public class MovieController {
 		return "profile";
 	}
 	
-	@RequestMapping(value = {"/delete/{movieId}"},method = RequestMethod.GET)
-	public String deleteMovie(Model model,HttpSession session,@PathVariable (value = "movieId") String movieId) throws SQLException {
-		long id = Long.parseLong(movieId);
-		movieDao.delete(id);
-		return "admin";
-	}
-	
 	@RequestMapping(value="/remove/{movieId}",method = RequestMethod.GET)
 	public String removeFromFavorite(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
 		User user = (User) session.getAttribute("user");
@@ -106,7 +99,8 @@ public class MovieController {
 			@RequestParam (value = "name") String name,
 			@RequestParam (value = "year") String year,
 			@RequestParam (value = "rentPrice") String rentPrice,
-			@RequestParam (value = "price") String price) throws SQLException {
+			@RequestParam (value = "price") String price,
+			@RequestParam (value = "url") String url) throws SQLException {
 		String movieName =  name;
 		int movieYear = Integer.parseInt(year);
 		double movieRentPrice = Double.parseDouble(rentPrice);
@@ -119,4 +113,16 @@ public class MovieController {
 		return "admin";
 	}
 
+	@RequestMapping(value="/watch/{movieId}",method = RequestMethod.GET)
+	public String watchMovie(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+		User user = (User) session.getAttribute("user");
+		Movie movie = movieDao.getMovieById(Long.parseLong(movieId));
+		if(movieDao.checkIfRented(user,movie) || movieDao.checkIfBougth(user, movie)) {
+			model.addAttribute("movie", movie);
+			return "watch";
+		}
+		
+		model.addAttribute("msg", "You are not allowed to watch this movie!");
+		return "watch";
+	}
 }

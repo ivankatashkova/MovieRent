@@ -15,7 +15,6 @@ ul {
     overflow: hidden;
     background-color: #333;
 }
-
 li a {
     display: block;
     color: white;
@@ -57,11 +56,13 @@ body {
 				<tr>
 					<th>Name</th>
 					<th>End date</th>
+					<th></th>
 				</tr>
 				<c:forEach var="movie" items="${rented}">
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
 					<td><c:out value="${movie.endDate}"></c:out></td>
+					<td><a href="/MovieRent/watch/${movie.id}" style = "border: none; text-decoration: none;">Watch</a></td>
 				</tr>
 				</c:forEach>
 			</table>
@@ -77,6 +78,7 @@ body {
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
 					<td><c:out value="${movie.price}"></c:out> </td>
+					<td><a href="/MovieRent/watch/${movie.id}" style = "border: none; text-decoration: none;">Watch</a></td>
 				</tr>
 				</c:forEach>
 			</table>

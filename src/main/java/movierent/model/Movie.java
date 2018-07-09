@@ -9,6 +9,8 @@ public class Movie {
 	private double rentPrice;
 	private double price;
 	private Timestamp endDate;
+	private String url;
+	private String img;
 	
 	public Movie(String name, int year, double rentPrice, double price) {
 		super();
@@ -16,6 +18,7 @@ public class Movie {
 		this.year = year;
 		this.rentPrice = rentPrice;
 		this.price = price;
+		setImg();
 	}
 	public Movie(long id, String name, int year, double rentPrice, double price) {
 		super();
@@ -24,6 +27,7 @@ public class Movie {
 		this.year = year;
 		this.rentPrice = rentPrice;
 		this.price = price;
+		setImg();
 	}
 	
 	public long getId() {
@@ -61,6 +65,18 @@ public class Movie {
 	}
 	public void setEndDate(Timestamp endDate) {
 		this.endDate = endDate;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg() {
+		this.img = "/MovieRent/img/"+ this.name.toLowerCase()+".jpg";
 	}
 	
 }

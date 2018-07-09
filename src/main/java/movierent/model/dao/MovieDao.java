@@ -40,7 +40,7 @@ public class MovieDao {
 	
 	public Movie getMovieById(long id) throws SQLException {
 		Movie movie = null;
-		String sqlSelectMovieById = "SELECT id,name,year,rent_price,price FROM movies WHERE id = ?";
+		String sqlSelectMovieById = "SELECT id,name,year,rent_price,price,url FROM movies WHERE id = ?";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectMovieById)){
 			ps.setLong(1, id);
 			ResultSet rs =  ps.executeQuery();
@@ -50,7 +50,9 @@ public class MovieDao {
 				int year =  rs.getInt("year");
 				double rentPrice = rs.getDouble("rent_price");
 				double price = rs.getDouble("price");
+				String url = rs.getString("url");
 				movie = new Movie(movieId, name, year, rentPrice, price);
+				movie.setUrl(url);
 			}
 		}
 		
@@ -90,7 +92,7 @@ public class MovieDao {
 		
 	}
 	
-	public boolean chechIfRented(User user, Movie movie) throws SQLException {
+	public boolean checkIfRented(User user, Movie movie) throws SQLException {
 		String sqlCheckIfRented = "SELECT users_id,movies_id FROM users_has_rented_movies WHERE users_id = ? AND movies_id = ?";
 		try(PreparedStatement ps = connection.prepareStatement(sqlCheckIfRented)){
 			ps.setLong(1, user.getId());
@@ -107,7 +109,7 @@ public class MovieDao {
 		}
 	}
 	
-	public boolean chechIfBougth(User user, Movie movie) throws SQLException {
+	public boolean checkIfBougth(User user, Movie movie) throws SQLException {
 		String sqlCheckIfBougth = "SELECT users_id,movies_id FROM users_has_bought_movies WHERE users_id = ? AND movies_id = ?";
 		try(PreparedStatement ps = connection.prepareStatement(sqlCheckIfBougth)){
 			ps.setLong(1, user.getId());
@@ -196,25 +198,18 @@ public class MovieDao {
 		
 	}
 	
-	public void delete(long id) throws SQLException {
-		String sqlDeleteMovie = "DELETE FROM movies WHERE id = ?";
-		try(PreparedStatement ps =  connection.prepareStatement(sqlDeleteMovie)){
-			ps.setLong(1, id);
-			ps.executeUpdate();
-		}
-		
-	}
-	
 	public void addMovie(Movie movie) throws SQLException {
-		String sqlAddMovie = "INSERT INTO movies (name,year,rent_price,price) VALUES (?,?,?,?)";
+		String sqlAddMovie = "INSERT INTO movies (name,year,rent_price,price,url) VALUES (?,?,?,?,?)";
 		try(PreparedStatement ps =  connection.prepareStatement(sqlAddMovie)){
 			ps.setString(1, movie.getName());
 			ps.setInt(2, movie.getYear());
 			ps.setDouble(3, movie.getRentPrice());
 			ps.setDouble(4, movie.getPrice());
+			ps.setString(5, movie.getUrl());
 			ps.executeUpdate();
 		}
 		
 	}
+	
 }
 	
