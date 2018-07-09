@@ -61,7 +61,7 @@ body {
 				<c:forEach var="movie" items="${rented}">
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
-					<td></td>
+					<td><c:out value="${movie.endDate}"></c:out></td>
 				</tr>
 				</c:forEach>
 			</table>

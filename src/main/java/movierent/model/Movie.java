@@ -1,11 +1,15 @@
 package movierent.model;
 
+import java.sql.Timestamp;
+
 public class Movie {
 	private long id;
 	private String name;
 	private int year;
 	private double rentPrice;
 	private double price;
+	private Timestamp endDate;
+	
 	public Movie(String name, int year, double rentPrice, double price) {
 		super();
 		this.name = name;
@@ -21,6 +25,7 @@ public class Movie {
 		this.rentPrice = rentPrice;
 		this.price = price;
 	}
+	
 	public long getId() {
 		return id;
 	}
@@ -51,6 +56,11 @@ public class Movie {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
+	public Timestamp getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Timestamp endDate) {
+		this.endDate = endDate;
+	}
 	
 }

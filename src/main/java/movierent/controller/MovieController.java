@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import movierent.model.Movie;
 import movierent.model.User;
 import movierent.model.dao.MovieDao;
@@ -102,10 +103,10 @@ public class MovieController {
 	
 	@RequestMapping(value = {"/addMovie"},method = RequestMethod.POST)
 	public String addMovie(Model model,
-			@PathVariable (value = "name") String name,
-			@PathVariable (value = "year") String year,
-			@PathVariable (value = "rentPrice") String rentPrice,
-			@PathVariable (value = "price") String price) throws SQLException {
+			@RequestParam (value = "name") String name,
+			@RequestParam (value = "year") String year,
+			@RequestParam (value = "rentPrice") String rentPrice,
+			@RequestParam (value = "price") String price) throws SQLException {
 		String movieName =  name;
 		int movieYear = Integer.parseInt(year);
 		double movieRentPrice = Double.parseDouble(rentPrice);

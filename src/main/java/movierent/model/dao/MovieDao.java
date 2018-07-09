@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import org.springframework.stereotype.Component;
 import movierent.model.Movie;
@@ -57,10 +59,13 @@ public class MovieDao {
 	}
 	
 	public void rent(User user, Movie movie) throws SQLException {
-		String sqlInsertRented = "INSERT INTO users_has_rented_movies (users_id,movies_id) VALUES (?,?)";
+		String sqlInsertRented = "INSERT INTO users_has_rented_movies (users_id,movies_id,end_date) VALUES (?,?,?)";
 		try(PreparedStatement ps =  connection.prepareStatement(sqlInsertRented)){
 			ps.setLong(1, user.getId());
 			ps.setLong(2,movie.getId());
+			LocalDateTime date = LocalDateTime.now().plusDays(7);
+			Timestamp endDate =  Timestamp.valueOf(date);
+			ps.setTimestamp(3, endDate);
 			ps.executeUpdate();
 		}
 		
@@ -68,20 +73,18 @@ public class MovieDao {
 	
 	public ArrayList<Movie> rentedMovies (User user) throws SQLException{
 		ArrayList<Movie> rented = new ArrayList<>();
-		ArrayList<Long> moviesIds =  new ArrayList<>();
-		String sqlSelectAllRentedByUser = "SELECT movies_id FROM users_has_rented_movies WHERE users_id = ?";
+		String sqlSelectAllRentedByUser = "SELECT movies_id,end_date FROM users_has_rented_movies WHERE users_id = ?";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllRentedByUser)){
 			ps.setLong(1, user.getId());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
-				long movieId =  rs.getLong("movies_id");
-				moviesIds.add(movieId);
-			}
-			
-			for(int i = 0; i < moviesIds.size();i++) {
-				Movie movie = getMovieById(moviesIds.get(i));
+				long id = rs.getLong("movies_id");
+				Timestamp endDate = rs.getTimestamp("end_date");
+				Movie movie = getMovieById(id);
+				movie.setEndDate(endDate);
 				rented.add(movie);
 			}
+			
 			return rented;
 		}
 		
