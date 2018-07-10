@@ -61,16 +61,15 @@ body {
 					<td><c:out value="${movie.year}"></c:out></td>
 					<td><c:out value="${movie.rentPrice}"></c:out> </td>
 					<td><c:out value="${movie.price}"></c:out> </td>
-					<td><a href="/MovieRent/delete/${movie.id}" style = "border: none; text-decoration: none;">Delete</a></td>
 				</tr>
 			</c:forEach>
 		</table>
 		<form action="/MovieRent/addMovie" method = "post">
 		<input type = "text" name = "name" placeholder = "Movie name">
-		<input type = "text" name = "year" placeholder = "year"><br/>
+		<input type = "text" name = "year" placeholder = "year"><br/> <br/>
 		<input type = "text" name = "rentPrice" placeholder = "Rent price">
-		<input type = "text" name = "price" placeholder = "Price"><br/>
-		<input type = "text" name = "url" placeholder = "Url"><br/>
+		<input type = "text" name = "price" placeholder = "Price"><br/> <br/>
+		<input type = "text" name = "url" placeholder = "Url"><br/> <br/>
 		<input type = "submit" value = "Add new movie" style = "text-align:center; border: none; background-color: silver;">
 		</form>
 	</div>

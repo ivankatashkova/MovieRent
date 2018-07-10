@@ -71,18 +71,16 @@ public class UserController {
 			model.addAttribute("msg", "This email is already used!");
 			return "register";
 		}
-		else {
-			//check is password and confirmpassword match
-			if(!(password.equals(confirmpassword))) {
-				model.addAttribute("msg", "Passwords doesn't match!");
-				return "register";
-			}
-			//create user
-			User user =  new User(firstname, lastname, email, password,false);
-			//insert in db
-			userDao.register(user);
-			System.out.println("inserted in db");
+		//check is password and confirmpassword match
+		if(!(password.equals(confirmpassword))) {
+			model.addAttribute("msg", "Passwords doesn't match!");
+			return "register";
 		}
+		//create user
+		User user =  new User(firstname, lastname, email, password,false);
+		//insert in db
+		userDao.register(user);
+		System.out.println("inserted in db");	
 		//redirect
 		model.addAttribute("msg", "Successful registration! You can now log in!");
 		return "index";

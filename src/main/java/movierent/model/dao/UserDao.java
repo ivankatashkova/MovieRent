@@ -61,10 +61,7 @@ public class UserDao {
 			while(rs.next()) {
 				counter++;
 			}
-			if(counter != 0) {
-				return true;
-			}
-			return false;
+			return counter != 0;
 		}
 	}
 

@@ -10,6 +10,7 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
+	private double money;
 	private boolean isAdmin;
 	private ArrayList<Movie> favorites = new ArrayList<>();
 	private ArrayList<Movie> rented =  new ArrayList<>();
@@ -114,4 +115,13 @@ public class User {
 	public ArrayList<Movie> getBought(){
 		return (ArrayList<Movie>) Collections.unmodifiableList(bought);
 	}
+
+	public double getMoney() {
+		return money;
+	}
+
+	public void setMoney(double money) {
+		this.money = money;
+	}
+	
 }

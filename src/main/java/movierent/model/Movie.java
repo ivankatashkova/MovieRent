@@ -76,7 +76,10 @@ public class Movie {
 		return img;
 	}
 	public void setImg() {
-		this.img = "/MovieRent/img/"+ this.name.toLowerCase()+".jpg";
+		if(this.name.contains(":")) {
+			this.name  = this.name.replaceAll(":", "-");
+		}
+		this.img = this.name.toLowerCase()+".jpg";
 	}
 	
 }

@@ -50,9 +50,7 @@ body {
 			<c:out value="${msg}"></c:out>
 		<h3><c:out value="${movie.name}"></c:out></h3>
 		<h4><c:out value="${movie.year}"></c:out></h4> 
-		<div style = "margin:auto; border: 1px solid silver; width:120px; height:160px;">
-		<p>Movie photo</p>
-		</div>
+		<img alt="" src="/MovieRent/img/<c:out value="${movie.img }" ></c:out>" width="100px" >
 		<h4><i style = "color:green">$<c:out value="${movie.rentPrice}"></c:out></i>/<i style = "color:red;">$<c:out value="${movie.price}"></c:out></i></h4>
 		<p><a href = "/MovieRent/rent/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Rent</a> <a href = "/MovieRent/buy/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Buy</a> <a href = "/MovieRent/favorite/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Add to favorite</a></p>
 	</div>

@@ -42,21 +42,21 @@ public class DBManager {
 	}
 	  
 	  public Connection getConnection() {
-		 if(connection == null) {
-			 try {
-			      Class.forName("com.mysql.jdbc.Driver");
-			    } catch (ClassNotFoundException e) {
-			    	e.getStackTrace();
-			      System.out.println(e.getMessage());
-			    }
-			    try
-			    {
-			      connection = DriverManager.getConnection(URL, DB_USERNAME,DB_PASSWORD);
-			    } catch (SQLException e) {
-			    	e.getStackTrace();
-			    	 System.out.println(e.getMessage());
-			    }		  
+		 if(connection != null) {
+			 return connection;
 		 }
-	    return connection;
-}
+		 try {
+			 Class.forName("com.mysql.jdbc.Driver");
+		 } catch (ClassNotFoundException e) {
+			 e.getStackTrace();
+		     System.out.println(e.getMessage());
+		 }
+		 try{
+			 connection = DriverManager.getConnection(URL, DB_USERNAME,DB_PASSWORD);
+		 } catch (SQLException e) {
+			 e.getStackTrace();
+			 System.out.println(e.getMessage());
+		 }		  
+		 return connection;
+	  }
 }

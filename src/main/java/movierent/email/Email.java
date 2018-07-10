@@ -1,11 +1,15 @@
-package movierent.model;
+package movierent.email;
 
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+
+import movierent.model.Movie;
+import movierent.model.User;
+
 import javax.activation.*;
 
-public class SendEmail {
+public class Email {
 	
 	public static void send(String subject,String text,String recepient) {    
 	      // Recipient's email ID needs to be mentioned.
@@ -50,7 +54,7 @@ public class SendEmail {
 	      }
 	   }
 	
-	public static void rentMovieNoLongerAvailable(Movie movie,User user) {    
+	public static void sendRentMovieNoLongerAvailable(Movie movie,User user) {    
 	      // Recipient's email ID needs to be mentioned.
 	      String to = user.getEmail();
 
@@ -94,7 +98,7 @@ public class SendEmail {
 	      }
 	   }
 	
-	public static void forgetPassword(User user) {    
+	public static void sendForgetPassword(User user) {    
 	      // Recipient's email ID needs to be mentioned.
 	      String to = user.getEmail();
 

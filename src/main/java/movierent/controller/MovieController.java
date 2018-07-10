@@ -21,7 +21,8 @@ public class MovieController {
 	MovieDao movieDao;
 	
 	@RequestMapping(value="/movie/{movieId}",method = RequestMethod.GET)
-	public String getMovie(Model model,@PathVariable (value = "movieId") String movieId) throws NumberFormatException, SQLException {		
+	public String getMovie(Model model,
+			@PathVariable (value = "movieId") String movieId) throws NumberFormatException, SQLException {		
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		model.addAttribute("movie", movie);
@@ -29,7 +30,9 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value="/rent/{movieId}",method = RequestMethod.GET)
-	public String rentMovie(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+	public String rentMovie(Model model,
+			@PathVariable (value = "movieId") String movieId,
+			HttpSession session) throws NumberFormatException, SQLException {		
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
@@ -45,7 +48,9 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value="/buy/{movieId}",method = RequestMethod.GET)
-	public String buyMovie(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+	public String buyMovie(Model model,
+			@PathVariable (value = "movieId") String movieId,
+			HttpSession session) throws NumberFormatException, SQLException {		
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
@@ -61,7 +66,9 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value="/favorite/{movieId}",method = RequestMethod.GET)
-	public String addToFavorite(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+	public String addToFavorite(Model model,
+			@PathVariable (value = "movieId") String movieId,
+			HttpSession session) throws NumberFormatException, SQLException {		
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
@@ -81,7 +88,9 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value="/remove/{movieId}",method = RequestMethod.GET)
-	public String removeFromFavorite(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+	public String removeFromFavorite(Model model,
+			@PathVariable (value = "movieId") String movieId,
+			HttpSession session) throws NumberFormatException, SQLException {		
 		User user = (User) session.getAttribute("user");
 		Movie movie = movieDao.getMovieById(Long.parseLong(movieId));
 		movieDao.removeFromFavorite(user, movie);
@@ -95,29 +104,35 @@ public class MovieController {
 	}
 	
 	@RequestMapping(value = {"/addMovie"},method = RequestMethod.POST)
-	public String addMovie(Model model,
+	public String addMovie(Model model,HttpSession session,
 			@RequestParam (value = "name") String name,
 			@RequestParam (value = "year") String year,
 			@RequestParam (value = "rentPrice") String rentPrice,
 			@RequestParam (value = "price") String price,
 			@RequestParam (value = "url") String url) throws SQLException {
-		String movieName =  name;
-		int movieYear = Integer.parseInt(year);
-		double movieRentPrice = Double.parseDouble(rentPrice);
-		double moviePrice = Double.parseDouble(price);
-		Movie movie = new Movie(movieName, movieYear, movieRentPrice, moviePrice);
-		movieDao.addMovie(movie);
-		model.addAttribute("msg", "New movie added!");
-		ArrayList<Movie>movies = movieDao.movies();
-		model.addAttribute("movies", movies);
-		return "admin";
+		User user = (User) session.getAttribute("user");
+		if(user.isAdmin()) {
+			String movieName =  name;
+			int movieYear = Integer.parseInt(year);
+			double movieRentPrice = Double.parseDouble(rentPrice);
+			double moviePrice = Double.parseDouble(price);
+			Movie movie = new Movie(movieName, movieYear, movieRentPrice, moviePrice);
+			movieDao.addMovie(movie);
+			model.addAttribute("msg", "New movie added!");
+			ArrayList<Movie>movies = movieDao.movies();
+			model.addAttribute("movies", movies);
+			return "admin";
+		}
+		return "index";
 	}
 
 	@RequestMapping(value="/watch/{movieId}",method = RequestMethod.GET)
-	public String watchMovie(Model model,@PathVariable (value = "movieId") String movieId, HttpSession session) throws NumberFormatException, SQLException {		
+	public String watchMovie(Model model,
+			@PathVariable (value = "movieId") String movieId,
+			HttpSession session) throws NumberFormatException, SQLException {		
 		User user = (User) session.getAttribute("user");
 		Movie movie = movieDao.getMovieById(Long.parseLong(movieId));
-		if(movieDao.checkIfRented(user,movie) || movieDao.checkIfBougth(user, movie)) {
+		if(movieDao.checkIfRented(user,movie) || movieDao.checkIfBougth(user, movie) && user != null) {
 			model.addAttribute("movie", movie);
 			return "watch";
 		}

@@ -45,6 +45,7 @@ body {
   <li><a href="/MovieRent/home" style="float:left;">Home</a></li>
   <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit"  value = "Logout" style="background-color:black; border:none; float:right;  display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></form></li>
   <li><a href="/MovieRent/profile" style="float:right;">Profile</a></li>
+  <li><c:out value="${sessionScope.user.money}"></c:out></li>
 </ul> 
 	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:100px;background-color:white;">
 		<img src="/MovieRent/img/user-icon.png" style="width:80px; height:80px;">
@@ -62,7 +63,7 @@ body {
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
 					<td><c:out value="${movie.endDate}"></c:out></td>
-					<td><a href="/MovieRent/watch/${movie.id}" style = "border: none; text-decoration: none;">Watch</a></td>
+					<td><a href="/MovieRent/watch/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Watch</a></td>
 				</tr>
 				</c:forEach>
 			</table>
@@ -78,13 +79,14 @@ body {
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
 					<td><c:out value="${movie.price}"></c:out> </td>
-					<td><a href="/MovieRent/watch/${movie.id}" style = "border: none; text-decoration: none;">Watch</a></td>
+					<td><a href="/MovieRent/watch/${movie.id}" style = "background-color: silver; border: none; text-decoration: none;">Watch</a></td>
 				</tr>
 				</c:forEach>
 			</table>
 		</div>
 		<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:10px;"> 
 			<p>Favorite movies</p>
+			<form action = "/MovieRent/remove/${movie.id}" method = "post">
 			<table style="margin:auto;">
 				<tr>
 					<th>Name</th>
@@ -93,10 +95,27 @@ body {
 				<c:forEach var="movie" items="${favorites}">
 				<tr>
 					<td><c:out value="${movie.name}"></c:out> </td>
-					<td><a href="/MovieRent/remove/${movie.id}" style = "border: none; text-decoration: none;">Remove</a></td>
+					<td><a href="" style = "background-color: silver; border: none; text-decoration: none;">Remove</a></td>
 				</tr>
 				</c:forEach>
 			</table>
+			</form>
+		</div>
+		<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:10px;"> 
+			<p>Add money</p>
+			<input type = "text" name = "firstname" placeholder = "First name">
+			<input type = "text" name = "lastname" placeholder = "Last name">
+			<input type = "text" name = "expiration date" placeholder = "Expiration date" maxlength = "5">
+			<input type = "text" name = "csc" placeholder = "CSC code" maxlength = "3">
+			<p>Select amount:
+			<select>
+				  <option value="5">$5</option>
+				  <option value="10">$10</option>
+				  <option value="30">$30</option>
+				  <option value="50">$50</option>
+			</select>
+			</p>
+			<a href = "" style = "background-color: silver; border: none; text-decoration: none;">Add money</a>
 		</div>
 	</div>
 </body>

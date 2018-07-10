@@ -102,10 +102,7 @@ public class MovieDao {
 			while(rs.next()) {
 				counter++;
 			}
-			if(counter != 0) {
-				return true;
-			}
-			return false;
+			return counter != 0;
 		}
 	}
 	
@@ -119,10 +116,7 @@ public class MovieDao {
 			while(rs.next()) {
 				counter++;
 			}
-			if(counter != 0) {
-				return true;
-			}
-			return false;
+			return counter != 0;
 		}
 	}
 	

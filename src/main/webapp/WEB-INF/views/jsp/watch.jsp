@@ -43,13 +43,13 @@ body {
 <body>
  <ul>
   <li><a href="/MovieRent/home" style="float:left;">Home</a></li>
-  <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit"  value = "Logout" style="background-color:black; border:none; float:right;  display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></form></li>
+  <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit"  value = "Logout" style=" background-color:black; border:none; float:right;  display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></form></li>
   <li><a href="/MovieRent/profile" style="float:right;">Profile</a></li>
 </ul> 
 
 <div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:100px;background-color:white;">
 	<h3><c:out value="${msg}"></c:out></h3>
-	<a href = "${movie.url}"><img alt="" src="<c:out value="${movie.img }"></c:out>"> <c:out value="${movie.img }"></c:out></a>
+	<a href = "${movie.url}"><img alt="" src="/MovieRent/img/<c:out value="${movie.img }" ></c:out>" width="500px" ></a>
 </div>
 
 
