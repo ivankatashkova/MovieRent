@@ -10,7 +10,7 @@
 </head>
 <style>
 body {
-   background-image: url("img/bg.jpg");
+   background-image: url("/MovieRent/img/bg.jpg");
    background-color: #cccccc;
      background-position: center;
     background-repeat: no-repeat;
@@ -23,8 +23,8 @@ body {
 	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:30%; margin-top:100px;background-color:white;">
 		<form action="login" method="post">
 			<p><c:out value="${msg}"></c:out></p>
-			<p><input type = "text" placeholder = "email" name = "email" required></p>
-			<p><input type = "password" placeholder = "password" name = "password" required></p>
+			<p><input type = "text" placeholder = "email" name = "email" required maxlength = "255"></p>
+			<p><input type = "password" placeholder = "password" name = "password" required maxlength = "30"></p>
 			<p><input type = "submit" value = "Log in" style = "background-color: silver; border: none; height: 30px;"></p>
 		</form>
 		 <p style="font-size:14;"><a href = "/MovieRent/register" style = "color:black;">I don't have registration! </a></p>

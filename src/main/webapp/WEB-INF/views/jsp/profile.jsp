@@ -48,6 +48,7 @@ body {
   <li> <input type= "submit"  value = "$<c:out value="${sessionScope.user.money}"></c:out>" style="background-color:black; border:none; float:right;  display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></li>
 </ul> 
 	<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:100px;background-color:white;">
+		<h3 style = "color:red;"> <c:out value="${msg}"></c:out> </h3>
 		<img src="/MovieRent/img/user-icon.png" style="width:80px; height:80px;">
 		<h4><c:out value="${sessionScope.user.firstName}"></c:out> </h4>
 		<h3><c:out value="${sessionScope.user.lastName}"></c:out></h3>
@@ -103,19 +104,20 @@ body {
 		</div>
 		<div style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:50%; margin-top:10px;"> 
 			<p>Add money</p>
-			<input type = "text" name = "firstname" placeholder = "First name">
-			<input type = "text" name = "lastname" placeholder = "Last name">
-			<input type = "text" name = "expiration date" placeholder = "Expiration date" maxlength = "5">
-			<input type = "text" name = "csc" placeholder = "CSC code" maxlength = "3">
-			<p>Select amount:
-			<select>
+			<form action = "/MovieRent/profile" method = "post">
+			<input type = "text" name = "firstname" placeholder = "First name" required>
+			<input type = "text" name = "lastname" placeholder = "Last name" required>
+			<input type = "text" name = "expiration date" placeholder = "Expiration date" maxlength = "5" required>
+			<input type = "text" name = "csc" placeholder = "CSC code" maxlength = "3" required>
+			<label for="amount">Select amount:</label>
+			<select name = "amount">
 				  <option value="5">$5</option>
 				  <option value="10">$10</option>
 				  <option value="30">$30</option>
 				  <option value="50">$50</option>
 			</select>
-			</p>
-			<a href = "" style = "background-color: silver; border: none; text-decoration: none;">Add money</a>
+			<input type = "submit" value = "Add amount"  style = "background-color: silver; border: none; text-decoration: none;">
+			</form>
 		</div>
 	</div>
 </body>

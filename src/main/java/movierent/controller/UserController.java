@@ -1,5 +1,10 @@
 package movierent.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
@@ -90,12 +95,52 @@ public class UserController {
 	@RequestMapping(value = {"/profile"},method = RequestMethod.GET)
 	public String getProfile(Model model,HttpSession session) throws SQLException {
 		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
 		ArrayList<Movie> rented = movieDao.rentedMovies(user);
 		model.addAttribute("rented", rented);
 		ArrayList<Movie>bought =  movieDao.boughtMovies(user);
 		model.addAttribute("bought",bought);
 		ArrayList<Movie> favorites =  movieDao.favorites(user);
 		model.addAttribute("favorites", favorites);
+		return "profile";
+	}
+	
+	@RequestMapping(value = {"/profile"},method = RequestMethod.POST)
+	public String getPaymentResponse(Model model,HttpSession session, @RequestParam String amount) throws IOException, SQLException {
+		URL url = new URL("http://localhost:8080/Payment/payment");
+		URLConnection connection =  url.openConnection();
+		((HttpURLConnection) connection).setRequestMethod("GET");
+		InputStream responseBodyStream = connection.getInputStream();
+		int b = responseBodyStream.read();
+		StringBuffer sb = new StringBuffer();
+		while(b != -1) {
+			sb.append((char)b);
+			b = responseBodyStream.read();
+		}
+		String json = sb.toString();
+		System.out.println("Result" +json);
+		model.addAttribute("msg", json);
+		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
+		ArrayList<Movie> rented = movieDao.rentedMovies(user);
+		model.addAttribute("rented", rented);
+		ArrayList<Movie>bought =  movieDao.boughtMovies(user);
+		model.addAttribute("bought",bought);
+		ArrayList<Movie> favorites =  movieDao.favorites(user);
+		model.addAttribute("favorites", favorites);
+		
+		if(json.toLowerCase().contains("success")) {
+			System.out.println("SUCCESS");
+			double money = Double.parseDouble(amount);
+			System.out.println(money);
+			double currentAmount = user.getMoney();
+			user.setMoney(currentAmount+money);
+			userDao.changeUserAmount(user);
+		}
 		return "profile";
 	}
 	

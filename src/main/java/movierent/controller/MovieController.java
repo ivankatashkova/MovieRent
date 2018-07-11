@@ -39,6 +39,9 @@ public class MovieController {
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
 		if(movieDao.checkIfRented(user, movie)) {
 			model.addAttribute("msg", "Movie is already rented!");
 			return "movie";
@@ -68,6 +71,9 @@ public class MovieController {
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
 		if(movieDao.checkIfBougth(user, movie)) {
 			model.addAttribute("msg", "You already have that movie!");
 			return "movie";
@@ -97,6 +103,9 @@ public class MovieController {
 		Movie movie = null;
 		movie = movieDao.getMovieById(Long.parseLong(movieId));
 		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
 		ArrayList<Movie> favorites = movieDao.favorites(user);
 		if(favorites.contains(movie)) {
 			model.addAttribute("msg", "Movie is already in favorites!");
@@ -117,6 +126,9 @@ public class MovieController {
 			@PathVariable (value = "movieId") String movieId,
 			HttpSession session) throws NumberFormatException, SQLException {		
 		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
 		Movie movie = movieDao.getMovieById(Long.parseLong(movieId));
 		movieDao.removeFromFavorite(user, movie);
 		ArrayList<Movie> favorites =  movieDao.favorites(user);
@@ -156,7 +168,14 @@ public class MovieController {
 			@PathVariable (value = "movieId") String movieId,
 			HttpSession session) throws NumberFormatException, SQLException {		
 		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return "index";
+		}
 		Movie movie = movieDao.getMovieById(Long.parseLong(movieId));
+		if(movie == null) {
+			model.addAttribute("msg", "You are not allowed to watch this movie!");
+			return "watch";
+		}
 		if(movieDao.checkIfRented(user,movie) || movieDao.checkIfBougth(user, movie) && user != null) {
 			model.addAttribute("movie", movie);
 			return "watch";

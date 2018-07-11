@@ -34,22 +34,5 @@ public class MainController {
 		}
 		return "home";
 	}
-	
-	/*
-		int day = LocalDateTime.now().getDayOfMonth();
-		int month =  LocalDateTime.now().getMonthValue();
-		int year = LocalDateTime.now().getYear();
 		
-		method(day,month,year)
-		
-		method(int day,int month,int year)
-		String query = "SELECT user_id,movie_id FROM users_has_rented_movies WHERE DAY(end_date) = ? AND MONTH(end_date)= ? AND YEAR(end_date) = ?";
-		day(end_date) = day;
-		month(end_date) = month;
-		year(end_date) = year;
-		delete result row/s
-		*/
-		
-	
-	
 }
