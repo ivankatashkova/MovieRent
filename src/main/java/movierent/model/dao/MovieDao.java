@@ -74,22 +74,41 @@ public class MovieDao {
 	}
 	
 	public ArrayList<Movie> rentedMovies (User user) throws SQLException{
+		connection.setAutoCommit(false);
 		ArrayList<Movie> rented = new ArrayList<>();
+		int day = LocalDateTime.now().getDayOfMonth();
+		int month = LocalDateTime.now().getMonthValue();
+		int year = LocalDateTime.now().getYear();
+		String deleteExpiredRentMovies = "DELETE FROM users_has_rented_movies WHERE DAY(end_date) = ? AND MONTH(end_date) = ? AND YEAR(end_date) = ?";
 		String sqlSelectAllRentedByUser = "SELECT movies_id,end_date FROM users_has_rented_movies WHERE users_id = ?";
-		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllRentedByUser)){
-			ps.setLong(1, user.getId());
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				long id = rs.getLong("movies_id");
-				Timestamp endDate = rs.getTimestamp("end_date");
-				Movie movie = getMovieById(id);
-				movie.setEndDate(endDate);
-				rented.add(movie);
+		try{
+			try(PreparedStatement ps = connection.prepareStatement(deleteExpiredRentMovies)){
+				ps.setInt(1, day);
+				ps.setInt(2, month);
+				ps.setInt(3, year);
+				ps.executeUpdate();
 			}
-			
-			return rented;
+			try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllRentedByUser)){
+				ps.setLong(1, user.getId());
+				ResultSet rs = ps.executeQuery();
+				while(rs.next()) {
+					long id = rs.getLong("movies_id");
+					Timestamp endDate = rs.getTimestamp("end_date");
+					Movie movie = getMovieById(id);
+					movie.setEndDate(endDate);
+					rented.add(movie);
+				}
+			}
 		}
-		
+		catch(SQLException e) {
+			connection.rollback();
+			throw e;
+		}
+		finally {
+			connection.setAutoCommit(true);
+		}
+			
+			return rented;		
 	}
 	
 	public boolean checkIfRented(User user, Movie movie) throws SQLException {

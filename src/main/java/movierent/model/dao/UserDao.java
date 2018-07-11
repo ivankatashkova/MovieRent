@@ -84,7 +84,7 @@ public class UserDao {
 	
 	public User getUserByEmail(String email) throws SQLException {
 		User user = null;
-		String sqlSelectUserById = "SELECT id,first_name,last_name,email,password,isAdmin FROM users WHERE email = ? ;";
+		String sqlSelectUserById = "SELECT id,first_name,last_name,email,password,isAdmin,money FROM users WHERE email = ? ;";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectUserById)){
 			ps.setString(1, email);
 			ResultSet result = ps.executeQuery();
@@ -95,10 +95,21 @@ public class UserDao {
 				String mail = result.getString("email");
 				String password = result.getString("password");
 				boolean isAdmin = result.getBoolean("isAdmin");
+				double money = result.getDouble("money");
 				user = new User(id,firstName, lastName,mail, password,isAdmin);
+				user.setMoney(money);
 			}
 		}
 		
 		return user;
+	}
+	
+	public void changeUserAmount(User user) throws SQLException {
+		String sqlUpdateMoney = "UPDATE users SET money = ? WHERE id = ?";
+		try(PreparedStatement ps = connection.prepareStatement(sqlUpdateMoney)){
+			ps.setDouble(1, user.getMoney());
+			ps.setLong(2, user.getId());
+			ps.executeUpdate();			
+		}
 	}
 }

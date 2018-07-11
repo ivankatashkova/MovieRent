@@ -27,7 +27,6 @@ body {
 			<p><input type = "password" placeholder = "password" name = "password" required></p>
 			<p><input type = "submit" value = "Log in" style = "background-color: silver; border: none; height: 30px;"></p>
 		</form>
-		 <p style="font-size:14;"><a href = "" style = "color:black;">Forgot password </a></p>
 		 <p style="font-size:14;"><a href = "/MovieRent/register" style = "color:black;">I don't have registration! </a></p>
 	</div>
 	

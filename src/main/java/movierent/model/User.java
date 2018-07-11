@@ -1,7 +1,5 @@
 package movierent.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class User {
 
@@ -12,9 +10,6 @@ public class User {
 	private String password;
 	private double money;
 	private boolean isAdmin;
-	private ArrayList<Movie> favorites = new ArrayList<>();
-	private ArrayList<Movie> rented =  new ArrayList<>();
-	private ArrayList<Movie> bought =  new ArrayList<>();
 	
 	public User(String firstName, String lastName, String email, String password,boolean isAdmin) {
 		this.firstName = firstName;
@@ -82,46 +77,20 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 	
-	public void addToFavorite(Movie movie) {
-		this.favorites.add(movie);
-	}
-	
-	public void removeFromFavorites(Movie movie) {
-		if(this.favorites.contains(movie)) {
-			this.favorites.remove(movie);
-		}
-	}
-	public ArrayList<Movie> getFavorites() {
-		return (ArrayList<Movie>) Collections.unmodifiableList(favorites);
-	}
-	
-	public void addToRented(Movie movie) {
-		this.rented.add(movie);
-	}
-	
-	public void deleteFromRented(Movie movie) {
-		if(this.rented.contains(movie)) {
-			this.rented.remove(movie);
-		}
-	}
-	public ArrayList<Movie> getRented(){
-		return (ArrayList<Movie>) Collections.unmodifiableList(rented);
-	}
-	
-	public void addToBought(Movie movie) {
-		this.bought.add(movie);
-	}
-	
-	public ArrayList<Movie> getBought(){
-		return (ArrayList<Movie>) Collections.unmodifiableList(bought);
-	}
-
 	public double getMoney() {
-		return money;
+		return round(money,2);
 	}
 
 	public void setMoney(double money) {
 		this.money = money;
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long temp = Math.round(value);
+	    return (double) temp / factor;
 	}
 	
 }

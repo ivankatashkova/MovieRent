@@ -13,7 +13,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: black;
 }
 
 li a {
@@ -46,6 +46,7 @@ body {
   <li><a href="/MovieRent/home" style="float:left;">Home</a></li>
   <li> <form action = "/MovieRent/logout" method = "post"><input type= "submit" value = "Logout" style = "background-color:black; border:none; float:right; display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></form></li>
   <li><a href="/MovieRent/profile" style="float:right;">Profile</a></li>
+   <li> <input type= "submit"  value = "$<c:out value="${sessionScope.user.money}"></c:out>" style="background-color:black; border:none; float:right;  display: block;color: white;text-align: center;padding: 14px 16px; text-decoration: none;"></li>
 </ul> 
 	<div>
 		<table style= "margin:auto;border:1px solid silver;padding:10px;text-align:center;width:60%; margin-top:100px;background-color:white;">

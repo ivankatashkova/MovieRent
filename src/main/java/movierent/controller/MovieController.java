@@ -13,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import movierent.model.Movie;
 import movierent.model.User;
 import movierent.model.dao.MovieDao;
+import movierent.model.dao.UserDao;
 
 @Controller
 public class MovieController {
 	
 	@Autowired
 	MovieDao movieDao;
+	@Autowired
+	UserDao userDao;
 	
 	@RequestMapping(value="/movie/{movieId}",method = RequestMethod.GET)
 	public String getMovie(Model model,
@@ -40,11 +43,22 @@ public class MovieController {
 			model.addAttribute("msg", "Movie is already rented!");
 			return "movie";
 		}
-		//user.addToRented(movie);
-		movieDao.rent(user, movie);
-		ArrayList<Movie> rented = movieDao.rentedMovies(user);
-		model.addAttribute("rented", rented);
-		return "profile";
+		double moneyLeft = user.getMoney() - movie.getRentPrice();
+		if(moneyLeft >= 0) {
+			user.setMoney(moneyLeft);
+			movieDao.rent(user, movie);
+			userDao.changeUserAmount(user);
+			ArrayList<Movie> rented = movieDao.rentedMovies(user);
+			model.addAttribute("rented", rented);
+			ArrayList<Movie> bought = movieDao.boughtMovies(user);
+			model.addAttribute("bought", bought);
+			ArrayList<Movie> favorites = movieDao.favorites(user);
+			model.addAttribute("favorites", favorites);
+			return "profile";
+		}
+		model.addAttribute("msg", "You don't have enough money to rent this movie!");
+		return "movie";
+		
 	}
 	
 	@RequestMapping(value="/buy/{movieId}",method = RequestMethod.GET)
@@ -58,11 +72,22 @@ public class MovieController {
 			model.addAttribute("msg", "You already have that movie!");
 			return "movie";
 		}
-		//user.addToBougth(movie);
-		movieDao.buy(user, movie);
-		ArrayList<Movie> bought = movieDao.rentedMovies(user);
-		model.addAttribute("bougth", bought);
-		return "profile";
+		double moneyLeft =user.getMoney() - movie.getPrice();
+		if(moneyLeft >= 0) {
+			user.setMoney(moneyLeft);
+			userDao.changeUserAmount(user);
+			movieDao.buy(user, movie);
+			ArrayList<Movie> bought = movieDao.boughtMovies(user);
+			model.addAttribute("bought", bought);
+			ArrayList<Movie> rented = movieDao.rentedMovies(user);
+			model.addAttribute("rented", rented);
+			ArrayList<Movie> favorites = movieDao.favorites(user);
+			model.addAttribute("favorites", favorites);
+			return "profile";
+		}
+		model.addAttribute("msg", "You don't have enough money to buy this movie!");
+		return "movie";
+		
 	}
 	
 	@RequestMapping(value="/favorite/{movieId}",method = RequestMethod.GET)

@@ -29,6 +29,7 @@ public class UserController {
 		if(userDao.checkUser(email,password)) {
 			// login
 			User user = userDao.getUserByEmail(email);
+			System.out.println(user.getMoney());
 			session.setAttribute("user", user);
 			//redirect
 			ArrayList<Movie> movies = movieDao.movies();
